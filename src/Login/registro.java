@@ -1,5 +1,13 @@
-
 package Login;
+
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -7,11 +15,13 @@ package Login;
  */
 public class registro extends javax.swing.JFrame {
 
+    ConexionMysql com = new ConexionMysql();
+    Connection cn = com.conectar();
+
     public registro() {
         initComponents();
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -227,22 +237,35 @@ public class registro extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        if("".equals(jTextField1.getText())){
+            JOptionPane.showMessageDialog(null,"El Nombre es Requerido","Error",JOptionPane.ERROR_MESSAGE);
+        }
+        else if("".equals(jTextField2.getText())){
+            JOptionPane.showMessageDialog(null,"El Email es Requerido","Error",JOptionPane.ERROR_MESSAGE);
+
+        }
+        else if("".equals(jPasswordField1.getText())){
+            JOptionPane.showMessageDialog(null,"La Contraseña es Requerida","Error",JOptionPane.ERROR_MESSAGE);
+
+        }
+        else{
+          registrar();  
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+
         login LoginFrame = new login();
         LoginFrame.setVisible(true);
         LoginFrame.pack();
-        LoginFrame.setLocationRelativeTo(null); 
+        LoginFrame.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -261,4 +284,28 @@ public class registro extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+
+    private void registrar() {
+        String insertarUsu = "INSERT INTO Usuarios(NombreCompl,Correo,Contrasena) VALUES (?,?,?)";
+
+        try {
+            PreparedStatement ps;
+            ps = (PreparedStatement) cn.prepareStatement(insertarUsu);
+            ps.setString(1, jTextField1.getText());
+            ps.setString(2, jTextField2.getText());
+            ps.setString(3, jPasswordField1.getText());
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(rootPane, "Registro realizado con exito.");
+            limpiarCampos();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error al tratar de insertar los datos: " + ex);
+        }
+    }
+
+    private void limpiarCampos() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jPasswordField1.setText("");
+    }
 }

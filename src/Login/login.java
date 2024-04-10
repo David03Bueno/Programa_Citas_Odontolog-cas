@@ -1,5 +1,14 @@
-
 package Login;
+
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  *
@@ -7,11 +16,15 @@ package Login;
  */
 public class login extends javax.swing.JFrame {
 
+    ConexionMysql con = new ConexionMysql();
+    Connection cn = con.conectar();
+    PreparedStatement ps;
+    Statement st;
+    ResultSet rs;
 
     public login() {
         initComponents();
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -202,22 +215,29 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        //AQUI INICIAMOS SECION EN LOGIN
+        if ("".equals(jTextField1.getText())) {
+            JOptionPane.showMessageDialog(null, "El Nombre Esta Vacio", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if ("".equals(jPasswordField1.getText())) {
+            JOptionPane.showMessageDialog(null, "La Contraseña Esta Vacia", "Error", JOptionPane.ERROR_MESSAGE);
+
+        } else {
+            IniciarSeccion();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+
         registro RegistroFrame = new registro();
         RegistroFrame.setVisible(true);
         RegistroFrame.pack();
-        RegistroFrame.setLocationRelativeTo(null); 
+        RegistroFrame.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Derecha;
@@ -234,4 +254,43 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
+    private void IniciarSeccion() {
+        String email = jTextField1.getText();
+        String contra = jPasswordField1.getText();
+        String guardaContr = null;
+        String guarcorreo = null;
+
+  
+        String SQL = "SELECT * FROM Usuarios WHERE Correo=? AND Contrasena=?";
+       
+        try {
+            ps= cn.prepareStatement(SQL);
+            ps.setString(1, jTextField1.getText());
+            ps.setString(2, jPasswordField1.getText());
+            rs = ps.executeQuery();
+            
+            while(rs.next()){
+               guarcorreo = rs.getString(3);
+               guardaContr = rs.getString(4);
+               
+            }
+            if(email.equals(guarcorreo) && contra.equals(guardaContr)){
+                JOptionPane.showMessageDialog(null, "Inicio de Seccion Exitoso");
+                limpiarCampos();
+                //AQUI VA LA FUNCION PARA LLAMAR LA OTRA VENTANA
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Error Al Inciar Seccion", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error en la consulta SQL: " + ex);      
+        }
+       
+    }
+        private void limpiarCampos() {
+        jTextField1.setText("");
+        jPasswordField1.setText("");
+    }
 }
