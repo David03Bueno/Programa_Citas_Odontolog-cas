@@ -34,6 +34,7 @@ public class login extends javax.swing.JFrame {
         izquierda = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        btnsaliraplicacion = new javax.swing.JButton();
         Derecha = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -46,7 +47,6 @@ public class login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LOGIN");
-        setPreferredSize(new java.awt.Dimension(800, 500));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 500));
@@ -61,6 +61,15 @@ public class login extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("copyright © company name All rights reserved");
 
+        btnsaliraplicacion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnsaliraplicacion.setForeground(new java.awt.Color(0, 51, 102));
+        btnsaliraplicacion.setText("Salir");
+        btnsaliraplicacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnsaliraplicacionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout izquierdaLayout = new javax.swing.GroupLayout(izquierda);
         izquierda.setLayout(izquierdaLayout);
         izquierdaLayout.setHorizontalGroup(
@@ -72,7 +81,10 @@ public class login extends javax.swing.JFrame {
                         .addComponent(jLabel6))
                     .addGroup(izquierdaLayout.createSequentialGroup()
                         .addGap(56, 56, 56)
-                        .addComponent(jLabel5)))
+                        .addComponent(jLabel5))
+                    .addGroup(izquierdaLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnsaliraplicacion)))
                 .addContainerGap(65, Short.MAX_VALUE))
         );
         izquierdaLayout.setVerticalGroup(
@@ -82,7 +94,9 @@ public class login extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addComponent(jLabel5)
-                .addGap(63, 63, 63))
+                .addGap(20, 20, 20)
+                .addComponent(btnsaliraplicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel1.add(izquierda);
@@ -192,15 +206,11 @@ public class login extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -217,9 +227,9 @@ public class login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //AQUI INICIAMOS SECION EN LOGIN
         if ("".equals(jTextField1.getText())) {
-            JOptionPane.showMessageDialog(null, "El Nombre Esta Vacio", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Favor digite su email", "Error", JOptionPane.ERROR_MESSAGE);
         } else if ("".equals(jPasswordField1.getText())) {
-            JOptionPane.showMessageDialog(null, "La Contraseña Esta Vacia", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Favor digite su contraseña", "Error", JOptionPane.ERROR_MESSAGE);
 
         } else {
             IniciarSeccion();
@@ -235,12 +245,19 @@ public class login extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void btnsaliraplicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsaliraplicacionActionPerformed
+        
+        System.exit(0);
+        
+    }//GEN-LAST:event_btnsaliraplicacionActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Derecha;
+    private javax.swing.JButton btnsaliraplicacion;
     private javax.swing.JPanel izquierda;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -276,12 +293,12 @@ public class login extends javax.swing.JFrame {
                
             }
             if(email.equals(guarcorreo) && contra.equals(guardaContr)){
-                JOptionPane.showMessageDialog(null, "Inicio de Seccion Exitoso");
+                JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
                 limpiarCampos();
-                //AQUI VA LA FUNCION PARA LLAMAR LA OTRA VENTANA
+                MenuFrame();
             }
             else{
-                JOptionPane.showMessageDialog(null, "Error Al Inciar Seccion", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Email o contraseña incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
             }
             
         } catch (SQLException ex) {
@@ -292,5 +309,13 @@ public class login extends javax.swing.JFrame {
         private void limpiarCampos() {
         jTextField1.setText("");
         jPasswordField1.setText("");
+    }
+        
+        private void MenuFrame() {
+        menu MenuFrame = new menu();
+        MenuFrame.setVisible(true);
+        MenuFrame.pack();
+        MenuFrame.setLocationRelativeTo(null);
+        this.dispose();
     }
 }
