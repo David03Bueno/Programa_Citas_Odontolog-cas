@@ -21,9 +21,12 @@ public class login extends javax.swing.JFrame {
     PreparedStatement ps;
     Statement st;
     ResultSet rs;
-
+    
+    
+    
     public login() {
         initComponents();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -217,7 +220,7 @@ public class login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
@@ -269,10 +272,10 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
+    public javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
-    private void IniciarSeccion() {
+    public void IniciarSeccion() {
         String email = jTextField1.getText();
         String contra = jPasswordField1.getText();
         String guardaContr = null;
@@ -293,9 +296,9 @@ public class login extends javax.swing.JFrame {
                
             }
             if(email.equals(guarcorreo) && contra.equals(guardaContr)){
-                JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
-                limpiarCampos();
+                JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso"); 
                 MenuFrame();
+                 limpiarCampos();
             }
             else{
                 JOptionPane.showMessageDialog(null, "Email o contraseña incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
@@ -318,4 +321,5 @@ public class login extends javax.swing.JFrame {
         MenuFrame.setLocationRelativeTo(null);
         this.dispose();
     }
+
 }

@@ -4,7 +4,10 @@
  */
 package Login;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.text.html.HTML;
 
 /**
  *
@@ -40,7 +43,7 @@ public class menu extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jButton1 = new javax.swing.JButton();
+        btnAplicacion = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
@@ -172,12 +175,12 @@ public class menu extends javax.swing.JFrame {
 
         jSeparator1.setForeground(new java.awt.Color(0, 102, 153));
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(0, 51, 102));
-        jButton1.setText("acerca de la aplicación");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAplicacion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAplicacion.setForeground(new java.awt.Color(0, 51, 102));
+        btnAplicacion.setText("acerca de la aplicación");
+        btnAplicacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAplicacionActionPerformed(evt);
             }
         });
 
@@ -203,7 +206,7 @@ public class menu extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(64, 64, 64)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1))
+                    .addComponent(btnAplicacion))
                 .addGap(0, 58, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -214,7 +217,7 @@ public class menu extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAplicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(13, 13, 13)
                 .addComponent(jLabel1)
                 .addGap(41, 41, 41)
@@ -298,9 +301,9 @@ public class menu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnAplicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAplicacionActionPerformed
+        JOptionPane.showInternalMessageDialog(null, "VERSION DE PROGRAMA 1.0.0", "VERSION", JOptionPane.PLAIN_MESSAGE, icono("/Icono2/6410174.png", 40, 40));
+    }//GEN-LAST:event_btnAplicacionActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
@@ -378,7 +381,7 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JPanel TAB2;
     private javax.swing.JPanel TAB3;
     private javax.swing.JPanel TAB4;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnAplicacion;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -392,5 +395,11 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
+
+    private Icon icono(String path, int width, int heigth) {
+        Icon img = new ImageIcon(new ImageIcon(getClass().getResource(path)).getImage().getScaledInstance(width, heigth,java.awt.Image.SCALE_SMOOTH));
+        return img;
+        
+    }
 }
 

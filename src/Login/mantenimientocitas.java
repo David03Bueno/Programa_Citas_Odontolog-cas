@@ -4,14 +4,27 @@
  */
 package Login;
 
+import Login.login;
+
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.awt.Choice;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,35 +32,68 @@ import javax.swing.table.DefaultTableModel;
  * @author paula
  */
 public class mantenimientocitas extends javax.swing.JFrame {
-    DefaultTableModel dtm=new DefaultTableModel();
+
+    DefaultTableModel dtm = new DefaultTableModel();
     /**
      * Creates new form mantenimientocitas
      */
-    
+
+    ConexionMysql con = new ConexionMysql();
+    Connection cn = con.conectar();
+    private String data;
+    private String data2;
+    private String data3;
+
     public mantenimientocitas() {
         initComponents();
-        String[] titulo=new String[]{"Id cita:","Id usuario:","Doctor:","Fecha:","Horario:"};
+
+        String[] titulo = new String[]{"Id cita:", "Id usuario:", "Doctor:", "Fecha:", "Horario:", "Motivo:"};
         dtm.setColumnIdentifiers(titulo);
         tblDatos.setModel(dtm);
-        
-        choice1.add("Elige una opción");
-        choice1.add("Odontología General");
-        choice1.add("Ortodoncia");
-        choice1.add("Endodoncia");
-        choice1.add("Odontopediatría");
-        choice1.add("Implantología Dental");
-        choice1.add("Cirugía Oral y Maxilofacial");
-        
-        choice2.add("Elige una opción");
-        choice2.add("09:30 am");
-        choice2.add("10:45 am");
-        choice2.add("12:00 pm");
-        choice2.add("02:00 pm");
-        choice2.add("03:15 pm");
-        choice2.add("04:30 pm");
-        
-    }    
-    
+
+        choices();
+        iniciacializarMenu();
+    }
+
+    public void iniciacializarMenu() {
+        JMenuItem delete = new JMenuItem("Eliminar");
+        jPopupMenu1.add(delete);
+
+        tblDatos.setComponentPopupMenu(jPopupMenu1);
+
+        delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (JOptionPane.showConfirmDialog(rootPane, "Se eliminara el registro, desea continuar?", "Eliminar Registro",
+                        JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    try {
+                        String Borrar = "DELETE FROM Citas WHERE IdCitas='" + txtIDCita.getText() + "'";
+                        PreparedStatement ps;
+                        ps = (PreparedStatement) cn.prepareStatement(Borrar);
+                        int respuesta = ps.executeUpdate();
+                        if (respuesta > 0) {
+                            JOptionPane.showMessageDialog(null, "Registro eliminado con exito!");
+                            limpiarCampos();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No ha seleccionado la fila a ser borrada.");
+                            limpiarCampos();
+                        }
+                    } catch (SQLException exception) {
+                        System.err.println("Error al eliminar...." + exception);
+                        JOptionPane.showMessageDialog(null, "Error al eliminar!");
+                    }
+
+                } else {
+                    limpiarCampos();
+                    mostrarDatos(txtIDusuario.getText());
+                    btnModificar.setEnabled(false);
+                    btnCancelar.setEnabled(false);
+                    btnAgendar.setEnabled(true);
+                }
+            }
+        });
+    }
+
     private void Fecha() {
         DateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         txtfecha.addActionListener(new ActionListener() {
@@ -66,6 +112,7 @@ public class mantenimientocitas extends javax.swing.JFrame {
             }
         });
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -75,6 +122,7 @@ public class mantenimientocitas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -82,26 +130,26 @@ public class mantenimientocitas extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        choice1 = new java.awt.Choice();
+        ch = new java.awt.Choice();
         jTextField1 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        txtIDCita = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         choice2 = new java.awt.Choice();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAgendar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDatos = new javax.swing.JTable();
         jLabel12 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
+        txtIDusuario = new javax.swing.JTextField();
+        txtBuscar = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel14 = new javax.swing.JLabel();
         txtfecha = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtMotivo = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,7 +165,7 @@ public class mantenimientocitas extends javax.swing.JFrame {
 
         jLabel6.setBackground(new java.awt.Color(102, 102, 102));
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel6.setText("ID usuario:");
+        jLabel6.setText("ID Usuario");
 
         jLabel7.setBackground(new java.awt.Color(102, 102, 102));
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -131,9 +179,20 @@ public class mantenimientocitas extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel9.setText("Doctor asignado:");
 
-        choice1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        choice1.setForeground(new java.awt.Color(102, 102, 102));
+        ch.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        ch.setForeground(new java.awt.Color(102, 102, 102));
+        ch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                chMouseClicked(evt);
+            }
+        });
+        ch.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                chItemStateChanged(evt);
+            }
+        });
 
+        jTextField1.setEditable(false);
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField1.setForeground(new java.awt.Color(102, 102, 102));
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -142,8 +201,9 @@ public class mantenimientocitas extends javax.swing.JFrame {
             }
         });
 
-        jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField3.setForeground(new java.awt.Color(102, 102, 102));
+        txtIDCita.setEditable(false);
+        txtIDCita.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtIDCita.setForeground(new java.awt.Color(102, 102, 102));
 
         jLabel10.setBackground(new java.awt.Color(102, 102, 102));
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -151,27 +211,32 @@ public class mantenimientocitas extends javax.swing.JFrame {
 
         jLabel11.setBackground(new java.awt.Color(102, 102, 102));
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel11.setText("Buscar una cita pendiente mediante el ID de la cita:");
+        jLabel11.setText("Buscar Citas pendientes mediante el ID Usuario :");
 
         choice2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         choice2.setForeground(new java.awt.Color(102, 102, 102));
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(0, 51, 102));
-        jButton1.setText("AGENDAR");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAgendar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAgendar.setForeground(new java.awt.Color(0, 51, 102));
+        btnAgendar.setText("AGENDAR");
+        btnAgendar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAgendarActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(0, 51, 102));
-        jButton2.setText("CANCELAR");
+        btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCancelar.setForeground(new java.awt.Color(0, 51, 102));
+        btnCancelar.setText("CANCELAR");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(0, 51, 102));
-        jButton3.setText("MODIFICAR");
+        btnModificar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnModificar.setForeground(new java.awt.Color(0, 51, 102));
+        btnModificar.setText("MODIFICAR");
 
         tblDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -186,6 +251,11 @@ public class mantenimientocitas extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
             }
         ));
+        tblDatos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDatosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblDatos);
 
         jLabel12.setBackground(new java.awt.Color(102, 102, 102));
@@ -202,11 +272,26 @@ public class mantenimientocitas extends javax.swing.JFrame {
             }
         });
 
-        jTextField6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField6.setForeground(new java.awt.Color(102, 102, 102));
+        txtIDusuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtIDusuario.setForeground(new java.awt.Color(102, 102, 102));
+        txtIDusuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtIDusuarioMouseEntered(evt);
+            }
+        });
+        txtIDusuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtIDusuarioKeyPressed(evt);
+            }
+        });
 
-        jTextField7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField7.setForeground(new java.awt.Color(102, 102, 102));
+        txtBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtBuscar.setForeground(new java.awt.Color(102, 102, 102));
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyPressed(evt);
+            }
+        });
 
         jSeparator1.setForeground(new java.awt.Color(0, 51, 102));
 
@@ -223,20 +308,20 @@ public class mantenimientocitas extends javax.swing.JFrame {
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextArea1.setForeground(new java.awt.Color(102, 102, 102));
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jTextArea1.setWrapStyleWord(true);
-        jScrollPane2.setViewportView(jTextArea1);
+        txtMotivo.setColumns(20);
+        txtMotivo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtMotivo.setForeground(new java.awt.Color(102, 102, 102));
+        txtMotivo.setLineWrap(true);
+        txtMotivo.setRows(5);
+        txtMotivo.setWrapStyleWord(true);
+        jScrollPane2.setViewportView(txtMotivo);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel9)
@@ -244,26 +329,26 @@ public class mantenimientocitas extends javax.swing.JFrame {
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(choice1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(ch, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtIDCita, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtIDusuario))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel8))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAgendar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(15, 15, 15)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(choice2, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -292,7 +377,7 @@ public class mantenimientocitas extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(219, 219, 219))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
@@ -331,7 +416,7 @@ public class mantenimientocitas extends javax.swing.JFrame {
                                 .addGap(55, 55, 55)
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(choice1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ch, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(17, 17, 17)
@@ -343,9 +428,9 @@ public class mantenimientocitas extends javax.swing.JFrame {
                                 .addGap(12, 12, 12)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel6)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtIDCita, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(txtIDusuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -361,15 +446,15 @@ public class mantenimientocitas extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(choice2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnAgendar, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(26, 26, 26))))
         );
 
@@ -391,9 +476,9 @@ public class mantenimientocitas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnAgendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarActionPerformed
+        insertar();
+    }//GEN-LAST:event_btnAgendarActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
@@ -405,9 +490,57 @@ public class mantenimientocitas extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txtfechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfechaActionPerformed
-        
+
         Fecha();
     }//GEN-LAST:event_txtfechaActionPerformed
+
+    private void chItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chItemStateChanged
+
+        accionar();
+
+
+    }//GEN-LAST:event_chItemStateChanged
+
+    private void chMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_chMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chMouseClicked
+
+    private void txtIDusuarioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtIDusuarioMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIDusuarioMouseEntered
+
+    private void txtIDusuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIDusuarioKeyPressed
+
+    }//GEN-LAST:event_txtIDusuarioKeyPressed
+
+    private void txtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyPressed
+        if (evt.getExtendedKeyCode() == KeyEvent.VK_ENTER) {
+            dtm.setRowCount(0);
+            mostrarDatos(txtBuscar.getText());
+            limpiarCampos();
+        }
+    }//GEN-LAST:event_txtBuscarKeyPressed
+
+    private void tblDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDatosMouseClicked
+        btnAgendar.setEnabled(false);
+        btnCancelar.setEnabled(true);
+        btnModificar.setEnabled(true);
+        int fila = this.tblDatos.getSelectedRow();
+        txtIDCita.setText(this.tblDatos.getValueAt(fila, 0).toString());
+        txtIDusuario.setText(this.tblDatos.getValueAt(fila, 1).toString());
+        jTextField1.setText(this.tblDatos.getValueAt(fila, 2).toString());
+        txtfecha.setText(this.tblDatos.getValueAt(fila, 3).toString());
+        txtMotivo.setText(this.tblDatos.getValueAt(fila, 5).toString());
+    }//GEN-LAST:event_tblDatosMouseClicked
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        limpiarCampos();
+        dtm.setRowCount(0);
+        btnModificar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+        btnAgendar.setEnabled(true);
+        txtBuscar.setText("");
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -445,11 +578,11 @@ public class mantenimientocitas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Choice choice1;
+    private javax.swing.JButton btnAgendar;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnModificar;
+    private java.awt.Choice ch;
     private java.awt.Choice choice2;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -462,17 +595,158 @@ public class mantenimientocitas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
     private javax.swing.JTable tblDatos;
+    private javax.swing.JTextField txtBuscar;
+    private javax.swing.JTextField txtIDCita;
+    private javax.swing.JTextField txtIDusuario;
+    private javax.swing.JTextArea txtMotivo;
     private javax.swing.JTextField txtfecha;
     // End of variables declaration//GEN-END:variables
-}
 
-    
+    private void choices() {
+        //Choice ch = new Choice();
+
+        ch.addItem("Elige una opción");
+        ch.addItem("Odontología General");
+        ch.addItem("Ortodoncia");
+        ch.addItem("Endodoncia");
+        ch.addItem("Odontopediatría");
+        ch.addItem("Implantología Dental");
+        ch.addItem("Cirugía Oral y Maxilofacial");
+
+        choice2.addItem("Elige una opción");
+        choice2.addItem("09:30 am");
+        choice2.addItem("10:45 am");
+        choice2.addItem("12:00 pm");
+        choice2.addItem("02:00 pm");
+        choice2.addItem("03:15 pm");
+        choice2.addItem("04:30 pm");
+
+    }
+
+    private void accionar() {
+        int i = ch.getSelectedIndex();
+
+        String consultaSQL = "SELECT Doctor.Nombre, Doctor.Apellido, Doctor.IdDoctor FROM Doctor inner join Especialidad ON Especialidad.IdEspecialidad = Doctor.IdEspecialidad WHERE Especialidad.IdEspecialidad =" + i;
+
+//        String data;
+//        String data2;
+        Statement st;
+
+        try {
+            st = (Statement) cn.createStatement();
+            ResultSet rs = st.executeQuery(consultaSQL);
+            while (rs.next()) {
+                data = rs.getString(1);
+                data2 = rs.getString(2);
+                data3 = rs.getString(3);
+                jTextField1.setText(data + " " + data2);
+
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error en la consulta SQL: " + ex);
+
+            Logger.getLogger(mantenimientocitas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void insertar() {
+        String ID = txtIDusuario.getText();
+        String consulaNombre = "SELECT IdUsuario FROM Usuarios WHERE IdUsuario =" + ID;
+
+        String IDusuario = null;
+        Statement st;
+
+        try {
+            st = (Statement) cn.createStatement();
+            ResultSet rs = st.executeQuery(consulaNombre);
+            while (rs.next()) {
+                IDusuario = rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error en la consulta SQL: " + ex);
+            Logger.getLogger(mantenimientocitas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        int i = choice2.getSelectedIndex();
+        String consultaHorario = "SELECT IdHoraios FROM Horarios WHERE IdHoraios=" + i;
+
+        String IDHorarios = null;
+        try {
+            st = (Statement) cn.createStatement();
+            ResultSet rs = st.executeQuery(consultaHorario);
+            while (rs.next()) {
+                IDHorarios = rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error en la consulta SQL: " + ex);
+            Logger.getLogger(mantenimientocitas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        String insertarSQL = "INSERT INTO Citas(IdUsuario, IdHoraios, IdDoctor, MotivoCita, Fecha) VALUES (?,?,?,?,?)";
+        PreparedStatement ps;
+        try {
+            ps = (PreparedStatement) cn.prepareStatement(insertarSQL);
+            ps.setString(1, IDusuario);
+            ps.setString(2, IDHorarios);
+            ps.setString(3, data3);
+            ps.setString(4, txtMotivo.getText());
+            ps.setString(5, txtfecha.getText());
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(rootPane, "Registro realizado con exito.");
+            btnAgendar.setEnabled(true);
+            btnCancelar.setEnabled(false);
+            btnModificar.setEnabled(true);
+            mostrarDatos(txtIDusuario.getText());
+            limpiarCampos();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error al tratar de insertar los datos: " + ex);
+        }
+    }
+
+    private void mostrarDatos(String valorBuscar) {
+        String consultSQL = "SELECT Citas.IdCitas, Citas.IdUsuario, Doctor.Nombre, Citas.Fecha, Horarios.Horas, Citas.MotivoCita FROM Citas "
+                + "inner join Usuarios ON Usuarios.IdUsuario = Citas.IdUsuario "
+                + "INNER JOIN Doctor ON Doctor.IdDoctor = Citas.IdDoctor "
+                + "INNER JOIN Horarios ON Horarios.IdHoraios = Citas.IdHoraios WHERE Usuarios.IdUsuario=" + valorBuscar;
+
+        String data5[] = new String[6];
+        Statement st;
+        try {
+            st = (Statement) cn.createStatement();
+            ResultSet rs = st.executeQuery(consultSQL);
+            while (rs.next()) {
+                data5[0] = rs.getString(1);
+                data5[1] = rs.getString(2);
+                data5[2] = rs.getString(3);
+                data5[3] = rs.getString(4);
+                data5[4] = rs.getString(5);
+                data5[5] = rs.getString(6);
+                dtm.addRow(data5);
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error en la consulta SQL: " + ex);
+        }
+    }
+
+    private void limpiarCampos() {
+        txtIDCita.setText("");
+        txtIDusuario.setText("");
+        jTextField1.setText("");
+        txtMotivo.setText("");
+        txtfecha.setText("");
+        txtBuscar.setText("");
+    }
+
+
+
+}
