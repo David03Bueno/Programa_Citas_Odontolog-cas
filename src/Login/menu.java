@@ -4,6 +4,8 @@
  */
 package Login;
 
+import java.awt.Desktop;
+import java.io.File;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -302,11 +304,19 @@ public class menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAplicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAplicacionActionPerformed
-        JOptionPane.showInternalMessageDialog(null, "VERSION DE PROGRAMA 1.0.0", "VERSION", JOptionPane.PLAIN_MESSAGE, icono("/Icono2/6410174.png", 40, 40));
+        //Se crea un bloque de codigo para el mensaje que es llmado mas tarde
+        String mensaje = """
+                         VERSI\u00d3N DEL PROGRAMA: 1.0.0
+                         Desarrollador: [SIL]
+                         Plataforma: Android / iOS
+                         Fecha de Lanzamiento: 15 de Abril del 2024""";
+
+    JOptionPane.showInternalMessageDialog(null, mensaje, "ACERCA DE LA APP", JOptionPane.PLAIN_MESSAGE, icono("/Icono2/6410174.png", 40, 40));
     }//GEN-LAST:event_btnAplicacionActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
+        //Se crea una instancia para llamar la otra pestaña
         JOptionPane.showMessageDialog(rootPane, "Cerrando sesión...");
         login LoginFrame = new login();
         LoginFrame.setVisible(true);
@@ -317,6 +327,7 @@ public class menu extends javax.swing.JFrame {
 
     private void TAB1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TAB1MouseClicked
         
+        //Se crea una instancia para llamar la otra pestaña
         mantenimientocitas CitasFrame = new mantenimientocitas();
         CitasFrame.setVisible(true);
         CitasFrame.pack();
@@ -325,19 +336,61 @@ public class menu extends javax.swing.JFrame {
     }//GEN-LAST:event_TAB1MouseClicked
 
     private void TAB2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TAB2MouseClicked
-        // TODO add your handling code here:
+        
+        //Locacion del pdf
+        try {
+        File file = new File("C:/Users/paula/OneDrive/Escritorio/Manual_usuario.pdf");
+        //Se chequea si el pdf existe sino se ejecutan los else
+        if (file.exists()) {
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(file);
+            } else {
+                JOptionPane.showMessageDialog(this, "No compatible");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "El archivo no existe");
+        }
+        //Va de la mano con los else en caso de que halla algun error, identificarlos y solucionarlos
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    
     }//GEN-LAST:event_TAB2MouseClicked
 
     private void TAB3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TAB3MouseClicked
-        // TODO add your handling code here:
+        
+        //Locacion del pdf
+        try {
+        File file = new File("C:\\Users\\david\\OneDrive\\Escritorio\\MATERIAS_DE_ ITLA\\Cuarto_Cuatrimestre\\PROGRAMACION 1\\Tareas_PDF\\Tarea2\\Tarea2_1.pdf");
+        //Se chequea si el pdf existe sino se ejecutan los else
+        if (file.exists()) {
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(file);
+            } else {
+                JOptionPane.showMessageDialog(this, "No compatible");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "El archivo no existe");
+        }
+        //Va de la mano con los else en caso de que halla algun error, identificarlos y solucionarlos
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
     }//GEN-LAST:event_TAB3MouseClicked
 
     private void TAB4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TAB4MouseClicked
         
+        //Se crea una instancia para llamar la otra pestaña
         mantenimientoayuda AyudaFrame = new mantenimientoayuda();
+        // Hacer visible el marco (frame) de ayuda
         AyudaFrame.setVisible(true);
+        // Ajustar el tamaño del marco de ayuda automáticamente según su contenido
         AyudaFrame.pack();
+        // Establecer la posición del marco de ayuda en el centro de la pantalla
         AyudaFrame.setLocationRelativeTo(null);
+        // Cerrar y liberar los recursos de la ventana actual (la que contiene este código)
         this.dispose();
     }//GEN-LAST:event_TAB4MouseClicked
 

@@ -1,5 +1,6 @@
 package Login;
 
+import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
@@ -233,25 +234,24 @@ public class registro extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if("".equals(jTextField1.getText())){
-            JOptionPane.showMessageDialog(null,"El Nombre es Requerido","Error",JOptionPane.ERROR_MESSAGE);
-        }
-        else if("".equals(jTextField2.getText())){
-            JOptionPane.showMessageDialog(null,"El Email es Requerido","Error",JOptionPane.ERROR_MESSAGE);
+        if ("".equals(jTextField1.getText())) {
+            JOptionPane.showMessageDialog(null, "El Nombre es Requerido", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if ("".equals(jTextField2.getText())) {
+            JOptionPane.showMessageDialog(null, "El Email es Requerido", "Error", JOptionPane.ERROR_MESSAGE);
 
-        }
-        else if("".equals(jPasswordField1.getText())){
-            JOptionPane.showMessageDialog(null,"La Contraseña es Requerida","Error",JOptionPane.ERROR_MESSAGE);
+        } else if ("".equals(jPasswordField1.getText())) {
+            JOptionPane.showMessageDialog(null, "La Contraseña es Requerida", "Error", JOptionPane.ERROR_MESSAGE);
 
+        } else {
+            registrar();
+            obtenerIDUsuarioDesdeBaseDeDatos();
         }
-        else{
-          registrar();  
-        }
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
+        //Se crea una instancia para llamar la otra pestaña
         login LoginFrame = new login();
         LoginFrame.setVisible(true);
         LoginFrame.pack();
@@ -291,7 +291,7 @@ public class registro extends javax.swing.JFrame {
             ps.setString(2, jTextField2.getText());
             ps.setString(3, jPasswordField1.getText());
             ps.executeUpdate();
-            JOptionPane.showMessageDialog(rootPane, "Registro realizado con éxito.");
+
             limpiarCampos();
 
         } catch (SQLException ex) {
@@ -303,5 +303,32 @@ public class registro extends javax.swing.JFrame {
         jTextField1.setText("");
         jTextField2.setText("");
         jPasswordField1.setText("");
+    }
+
+    private void obtenerIDUsuarioDesdeBaseDeDatos() {
+        //PARA OBTENER ID USUARIO EN REGISTRO
+        String consultaSQL = "SELECT MAX(IdUsuario) FROM Usuarios";
+
+        String ID = null;
+
+        Statement st;
+        try {
+            st = (Statement) cn.createStatement();
+            ResultSet rs = st.executeQuery(consultaSQL);
+            while (rs.next()) {
+                ID = rs.getString(1);
+            }
+
+            String mensaje = """
+                             Registro realizado con éxito. 
+                             Estimado usuario recuerde guardar su ID para fines de consulta:  """ + ID;
+            JOptionPane.showMessageDialog(rootPane, mensaje);
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error al obtener ID REGISTRADO " + ex);
+
+            Logger.getLogger(registro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }

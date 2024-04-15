@@ -240,11 +240,16 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
+       
+        //Se crea una instancia para llamar la otra pestaña
         registro RegistroFrame = new registro();
+        // Hacer visible el marco (frame) de registro
         RegistroFrame.setVisible(true);
+        // Ajustar el tamaño del marco de ayuda automáticamente según su contenido
         RegistroFrame.pack();
+        // Establecer la posición del marco de ayuda en el centro de la pantalla
         RegistroFrame.setLocationRelativeTo(null);
+        // Cerrar y liberar los recursos de la ventana actual (la que contiene este código)
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -315,6 +320,7 @@ public class login extends javax.swing.JFrame {
     }
         
         private void MenuFrame() {
+        //Se crea una instancia para llamar la otra pestaña
         menu MenuFrame = new menu();
         MenuFrame.setVisible(true);
         MenuFrame.pack();

@@ -92,8 +92,8 @@ public class mantenimientocitas extends javax.swing.JFrame {
                     }
 
                 } else {
-                    limpiarCampos();
                     mostrarDatos(txtIDusuario.getText());
+                    limpiarCampos();
                     btnModificar.setEnabled(false);
                     btnCancelar.setEnabled(false);
                     btnAgendar.setEnabled(true);
@@ -103,13 +103,17 @@ public class mantenimientocitas extends javax.swing.JFrame {
     }
 
     private void Fecha() {
+        // Formato de fecha esperado para la entrada del usuario
         DateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        //Lo siguiente recibe la accion del boton enter
         txtfecha.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                // Obtener el texto ingresado en el campo de texto
                 String fechaTexto = txtfecha.getText();
                 try {
                     // Intentar convertir el texto a una fecha
                     Date fecha = formatoFecha.parse(fechaTexto);
+                    // Si la conversión es exitosa, mostrar un mensaje con la fecha en el formato correcto
                     Component frame = null;
                     JOptionPane.showMessageDialog(frame, "Fecha ingresada: " + formatoFecha.format(fecha));
                 } catch (ParseException ex) {
@@ -219,7 +223,7 @@ public class mantenimientocitas extends javax.swing.JFrame {
 
         jLabel11.setBackground(new java.awt.Color(102, 102, 102));
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel11.setText("Buscar Citas pendientes mediante el ID Usuario :");
+        jLabel11.setText("Buscar sus citas pendientes mediante el ID Usuario :");
 
         choice2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         choice2.setForeground(new java.awt.Color(102, 102, 102));
@@ -245,6 +249,11 @@ public class mantenimientocitas extends javax.swing.JFrame {
         btnModificar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnModificar.setForeground(new java.awt.Color(0, 51, 102));
         btnModificar.setText("MODIFICAR");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         tblDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -329,7 +338,7 @@ public class mantenimientocitas extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel9)
@@ -346,7 +355,7 @@ public class mantenimientocitas extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtIDusuario))
+                        .addComponent(txtIDusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel8))
@@ -438,7 +447,7 @@ public class mantenimientocitas extends javax.swing.JFrame {
                                     .addComponent(jLabel6)
                                     .addComponent(txtIDCita, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5)
-                                    .addComponent(txtIDusuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(txtIDusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -486,10 +495,12 @@ public class mantenimientocitas extends javax.swing.JFrame {
 
     private void btnAgendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarActionPerformed
         insertar();
+        
     }//GEN-LAST:event_btnAgendarActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
+        //Se crea una instancia para llamar la otra pestaña
         menu MenuFrame = new menu();
         MenuFrame.setVisible(true);
         MenuFrame.pack();
@@ -523,11 +534,17 @@ public class mantenimientocitas extends javax.swing.JFrame {
 
     private void txtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyPressed
         //CON DAR ENTER MUESTRA LOS DATOS A BUSCAR
+
         if (evt.getExtendedKeyCode() == KeyEvent.VK_ENTER) {
             dtm.setRowCount(0);
-            mostrarDatos(txtBuscar.getText());
-            limpiarCampos();
+            if ("".equals(txtBuscar.getText())) {
+                JOptionPane.showMessageDialog(null, "Favor digite un ID", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                mostrarDatos(txtBuscar.getText());
+                limpiarCampos();
+            }
         }
+
     }//GEN-LAST:event_txtBuscarKeyPressed
 
     private void tblDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDatosMouseClicked
@@ -552,6 +569,10 @@ public class mantenimientocitas extends javax.swing.JFrame {
         btnAgendar.setEnabled(true);
         txtBuscar.setText("");
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        modificarDatos();
+    }//GEN-LAST:event_btnModificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -621,7 +642,7 @@ public class mantenimientocitas extends javax.swing.JFrame {
 
     private void choices() {
         //Choice ch = new Choice();
-
+        //Se insertan datos en los choice
         ch.addItem("Elige una opción");
         ch.addItem("Odontología General");
         ch.addItem("Ortodoncia");
@@ -723,6 +744,7 @@ public class mantenimientocitas extends javax.swing.JFrame {
             btnCancelar.setEnabled(false);
             btnModificar.setEnabled(true);
             mostrarDatos(txtIDusuario.getText());
+            //enviarCorreo(txtIDusuario.getText());
             limpiarCampos();
 
         } catch (SQLException ex) {
@@ -765,6 +787,67 @@ public class mantenimientocitas extends javax.swing.JFrame {
         txtMotivo.setText("");
         txtfecha.setText("");
         txtBuscar.setText("");
+    }
+
+    private void modificarDatos() {
+        int i = choice2.getSelectedIndex(); // AQUI OBTENEMOS EL INDICE DEL CHOICE DE ESPECIALIDADES
+        //AQUI BUSCAMOS EL ID HORARIO DE LA TABLA HARARIOS
+        String consultaHorario = "SELECT IdHoraios FROM Horarios WHERE IdHoraios=" + i;
+        Statement st;
+        String IDHorarios = null;
+        try {
+            st = (Statement) cn.createStatement();
+            ResultSet rs = st.executeQuery(consultaHorario);
+            while (rs.next()) {
+                IDHorarios = rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error en la consulta SQL: " + ex);
+            Logger.getLogger(mantenimientocitas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        String actualizarSQL = "UPDATE Citas SET MotivoCita='" + txtMotivo.getText()
+                + "', Fecha='" + txtfecha.getText()
+                + "', IdHoraios='" + IDHorarios
+                + "' WHERE IdCitas=" + txtIDCita.getText();
+        try {
+            PreparedStatement ps;
+            ps = (PreparedStatement) cn.prepareStatement(actualizarSQL);
+            int indice = ps.executeUpdate();
+            if (indice > 0) {
+                JOptionPane.showMessageDialog(rootPane, "Datos actualizados correctamente.");
+                btnModificar.setEnabled(false);
+                btnCancelar.setEnabled(false);
+                btnAgendar.setEnabled(true);
+                dtm.setRowCount(0);
+                mostrarDatos(txtIDusuario.getText());
+                limpiarCampos();
+                txtBuscar.setText("");
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error al actualizar datos: " + ex);
+        }
+
+    }
+
+    private void enviarCorreo(String buscar) {
+        String consultarSQL = "SELECT Correo FROM Usuarios WHERE IdUsuario="+buscar;
+        String correo = null;
+        Statement st;
+        try {
+            st = (Statement) cn.createStatement();
+            ResultSet rs = st.executeQuery(consultarSQL);
+            while (rs.next()) {
+                correo = rs.getString(1);
+            }
+            //System.out.println(correo);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error en la consulta SQL: " + ex);
+            Logger.getLogger(mantenimientocitas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }
 
 }
