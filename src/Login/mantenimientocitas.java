@@ -37,25 +37,33 @@ public class mantenimientocitas extends javax.swing.JFrame {
     /**
      * Creates new form mantenimientocitas
      */
-
+    // AQUI INSTANCIAMOS LAS CLASES A UTILIZAR
     ConexionMysql con = new ConexionMysql();
     Connection cn = con.conectar();
+
+    //CREAMOS UNAS VARIABLES GLOBALES
     private String data;
     private String data2;
     private String data3;
 
     public mantenimientocitas() {
         initComponents();
-
+        //CREAMOS Y INICIALIZAMOS LA TABLA DE CONTENIDO
         String[] titulo = new String[]{"Id cita:", "Id usuario:", "Doctor:", "Fecha:", "Horario:", "Motivo:"};
         dtm.setColumnIdentifiers(titulo);
         tblDatos.setModel(dtm);
 
         choices();
         iniciacializarMenu();
+        btnAgendar.setEnabled(true);
+        btnCancelar.setEnabled(true);
+        btnModificar.setEnabled(false);
     }
 
     public void iniciacializarMenu() {
+        //EN ESTA FUNCION INSTANCIAMOS LA CLASE JMENUITEM
+        //PARA DE ESO MODO ULTIZAR SU EVENTO PARA ELIMINAR 
+        //REGISTRO CON EL CLICK DERECHO DE EL MOUSE
         JMenuItem delete = new JMenuItem("Eliminar");
         jPopupMenu1.add(delete);
 
@@ -514,6 +522,7 @@ public class mantenimientocitas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIDusuarioKeyPressed
 
     private void txtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyPressed
+        //CON DAR ENTER MUESTRA LOS DATOS A BUSCAR
         if (evt.getExtendedKeyCode() == KeyEvent.VK_ENTER) {
             dtm.setRowCount(0);
             mostrarDatos(txtBuscar.getText());
@@ -522,6 +531,8 @@ public class mantenimientocitas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarKeyPressed
 
     private void tblDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDatosMouseClicked
+        //CON ESTE CODIGO HACEMOS CLICK IZQUIERDO SOBRE LA TABLA 
+        //PARA PODER ELIMINAR ALGUNA FILA
         btnAgendar.setEnabled(false);
         btnCancelar.setEnabled(true);
         btnModificar.setEnabled(true);
@@ -630,7 +641,9 @@ public class mantenimientocitas extends javax.swing.JFrame {
     }
 
     private void accionar() {
-        int i = ch.getSelectedIndex();
+        //EN ESTA FUNCION BUSCAMOS LOS DATOS EN LA TABLA Doctor
+
+        int i = ch.getSelectedIndex(); // AQUI OBTENEMOS EL INDICE DEL CHOICE DE ESPECIALIDADES
 
         String consultaSQL = "SELECT Doctor.Nombre, Doctor.Apellido, Doctor.IdDoctor FROM Doctor inner join Especialidad ON Especialidad.IdEspecialidad = Doctor.IdEspecialidad WHERE Especialidad.IdEspecialidad =" + i;
 
@@ -658,6 +671,9 @@ public class mantenimientocitas extends javax.swing.JFrame {
     }
 
     private void insertar() {
+        //EN ESTA FUNCION INSERTAMOS LOS DATOS A LA TABLA INSERTAR
+
+        //AQUI BUSCAMOS EL ID USUARIOS DE LA TABLA USUARIO
         String ID = txtIDusuario.getText();
         String consulaNombre = "SELECT IdUsuario FROM Usuarios WHERE IdUsuario =" + ID;
 
@@ -675,7 +691,8 @@ public class mantenimientocitas extends javax.swing.JFrame {
             Logger.getLogger(mantenimientocitas.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        int i = choice2.getSelectedIndex();
+        int i = choice2.getSelectedIndex(); // AQUI OBTENEMOS EL INDICE DEL CHOICE DE ESPECIALIDADES
+        //AQUI BUSCAMOS EL ID HORARIO DE LA TABLA HARARIOS
         String consultaHorario = "SELECT IdHoraios FROM Horarios WHERE IdHoraios=" + i;
 
         String IDHorarios = null;
@@ -690,6 +707,7 @@ public class mantenimientocitas extends javax.swing.JFrame {
             Logger.getLogger(mantenimientocitas.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        //LUEGO DE BUSCAR LOS ELEMENTOS, LO INCERTAMOS EN LA TABLA CITAS
         String insertarSQL = "INSERT INTO Citas(IdUsuario, IdHoraios, IdDoctor, MotivoCita, Fecha) VALUES (?,?,?,?,?)";
         PreparedStatement ps;
         try {
@@ -713,6 +731,8 @@ public class mantenimientocitas extends javax.swing.JFrame {
     }
 
     private void mostrarDatos(String valorBuscar) {
+        //AQUI BUSCAMOS TODOS LOS DATOS PARA MOSTRAR DE LA TABLA CITAS ATRAVES DE EL VALOR A BUSCAR.
+        //UTILIZAMOS UN INNER JOIN PARA UNIR LA TABLA CITAS, DOCTOR,HORARIOS Y USUARIOS
         String consultSQL = "SELECT Citas.IdCitas, Citas.IdUsuario, Doctor.Nombre, Citas.Fecha, Horarios.Horas, Citas.MotivoCita FROM Citas "
                 + "inner join Usuarios ON Usuarios.IdUsuario = Citas.IdUsuario "
                 + "INNER JOIN Doctor ON Doctor.IdDoctor = Citas.IdDoctor "
@@ -746,7 +766,5 @@ public class mantenimientocitas extends javax.swing.JFrame {
         txtfecha.setText("");
         txtBuscar.setText("");
     }
-
-
 
 }
