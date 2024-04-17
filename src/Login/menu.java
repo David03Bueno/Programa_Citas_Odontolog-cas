@@ -339,7 +339,7 @@ public class menu extends javax.swing.JFrame {
         
         //Locacion del pdf
         try {
-        File file = new File("C:/Users/paula/OneDrive/Escritorio/Manual_usuario.pdf");
+        File file = new File("C:\\Users\\david\\OneDrive\\Escritorio\\MATERIAS_DE_ ITLA\\Cuarto_Cuatrimestre\\PROGRAMACION 1\\ProyectoFinal\\Documentacion\\Manual_usuario.pdf");
         //Se chequea si el pdf existe sino se ejecutan los else
         if (file.exists()) {
             if (Desktop.isDesktopSupported()) {
@@ -362,7 +362,7 @@ public class menu extends javax.swing.JFrame {
         
         //Locacion del pdf
         try {
-        File file = new File("C:\\Users\\david\\OneDrive\\Escritorio\\MATERIAS_DE_ ITLA\\Cuarto_Cuatrimestre\\PROGRAMACION 1\\Tareas_PDF\\Tarea2\\Tarea2_1.pdf");
+        File file = new File("C:\\Users\\david\\OneDrive\\Escritorio\\MATERIAS_DE_ ITLA\\Cuarto_Cuatrimestre\\PROGRAMACION 1\\ProyectoFinal\\Documentacion\\Manual_técnico.pdf");
         //Se chequea si el pdf existe sino se ejecutan los else
         if (file.exists()) {
             if (Desktop.isDesktopSupported()) {
