@@ -306,10 +306,18 @@ public class menu extends javax.swing.JFrame {
     private void btnAplicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAplicacionActionPerformed
         //Se crea un bloque de codigo para el mensaje que es llmado mas tarde
         String mensaje = """
-                         VERSI\u00d3N DEL PROGRAMA: 1.0.0
-                         Desarrollador: [SIL]
-                         Plataforma: Android / iOS
-                         Fecha de Lanzamiento: 15 de Abril del 2024""";
+¡Bienvenido a nuestra aplicación de citas médicas para odontología!
+                         
+                         🦷 VERSIÓN DEL PROGRAMA: 1.0.0
+                         👨‍💻 Desarrolladores:
+                             - Paula Henríquez
+                             - Luis David Bueno
+                             - Vladimir Mota
+                         📱 Plataforma: Android / iOS
+                         📅 Fecha de Lanzamiento: 15 de Abril del 2024
+                         
+                         Gracias por elegir nuestra aplicación para gestionar tus citas odontológicas de manera eficiente y conveniente.
+                          ¡Esperamos que tu experiencia sea excelente!""";
 
     JOptionPane.showInternalMessageDialog(null, mensaje, "ACERCA DE LA APP", JOptionPane.PLAIN_MESSAGE, icono("/Icono2/6410174.png", 40, 40));
     }//GEN-LAST:event_btnAplicacionActionPerformed
