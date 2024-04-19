@@ -24,7 +24,9 @@ Este programa fue realizado pensando en las necesidades presentadas por la Clini
 * Descargar e instalar el IDE de Netbeans y el jdbc conector 8.0.3 para MySQL (Puede usar el siguiente enlace; https://netbeans.apache.org/front/main/download/index.html).
 * Importar el projecto a Netbeans y ejecutar.
 
-
+# Manuales
+* Técnico: https://1drv.ms/b/c/823d5fa4089c83c1/ESrML9M9n7hLneu8yxxLM8ABiKBZkFQRCrsdLcylj_RMMg?e=37oynz
+* Usuario: https://1drv.ms/b/c/823d5fa4089c83c1/EWqq_x7Tc5dFg5R9nw_FzcMBtoztxMgSfRRSiMqHMdHkTw?e=jBZVQf
 
 # Pantalla LOGIN
 
