@@ -7,7 +7,7 @@ Este programa fue realizado pensando en las necesidades presentadas por la Clini
 
 # Desarrolladores
 * **Paula Henrsez** - SQA & Diseño | paulahenrsez@gmail.com
-* **Luis David Bueno** - DBA | david03bueno@gmail.com
+* **Luis David Bueno** - DBA & Backend | david03bueno@gmail.com
 * **Vladimi Lenin Mota Reyes** - Lider de proyecto | vladimirleninmota@hotmail.com
 ---
 # Tecnologias utilizadas
